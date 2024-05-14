@@ -1,0 +1,22 @@
+{
+  "name": "fyndflow",
+  "version": "1.0.0",
+  "description": "First version ",
+  "main": "Disable_scroll_nav_open.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webflow-team/cdn.git"
+  },
+  "keywords": [
+    "fyndflow"
+  ],
+  "author": "Rohit Jawale",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/webflow-team/cdn/issues"
+  },
+  "homepage": "https://github.com/webflow-team/cdn#readme"
+}
