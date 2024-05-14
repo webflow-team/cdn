@@ -1,4 +1,4 @@
-
+//rj
   var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 
   $(document).ready(function () {
