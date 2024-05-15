@@ -1,6 +1,6 @@
 {
   "name": "fyndflow",
-  "version": "1.0.0",
+  "version": "1.0.1-minor",
   "description": "First version ",
   "main": "Disable_scroll_nav_open.js",
   "scripts": {

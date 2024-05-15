@@ -1,5 +1,4 @@
 // Intl-tel-input
-//rj
 $(document).ready(function () {
   var input = document.querySelector("#phone"),
     dialCode = document.querySelector(".dialCode"),
