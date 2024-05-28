@@ -1,0 +1,189 @@
+select{
+  color:#728BA7;
+  font-weight:600;
+  }
+  
+  /*mobile no css*/
+  .errorhide {
+      display: none;
+  }
+  #valid-msg {
+  font-size: 12px;
+      color: #10B981;
+       margin-top: 0.375em;
+      line-height:100%;
+      padding-left: 1.38em;
+  }
+  #error-msg {
+  font-size: 12px;
+      color: #EF4444;
+      margin-top: 0.375em;
+      line-height:100%;
+      padding-left: 1.38em;
+  }
+  .iti {
+  width:100% !important;
+  }
+  .iti__country-list {
+  background-color:#E2F1FF !important;
+  border-radius:12px !important;
+  }
+  .iti__country-name {
+  color:#0C315A !important;
+  }
+  .iti--allow-dropdown .iti__flag-container:hover .iti__selected-flag {
+  background-color:#E2F1FF !important;
+  }
+  
+  .iti__dial-code {
+  color:#8a8aa8 !important;
+  font-size:0.75em !important;
+  }
+  .iti__selected-flag
+  {
+  border-radius:100vw !important;
+  padding-left:1.125em !important;
+  }
+  .iti__country-name {
+  font-size:0.75em !important;
+  line-height:140% !important}
+  label {
+  color:#e53f64;}
+  
+  
+  
+  .radio_label {
+    pointer-events: none;
+  }
+  .w-editor .radio_label {
+    pointer-events: auto;
+  }
+  
+  label.error {
+    font-size: 12px;
+    color: #EF4444;
+    line-height:100%;
+    margin-top: 0.375em;
+    padding-left: 1.38em;
+    width: 100%;
+    font-weight: 400;
+    transition: all 500ms ease-in-out;
+  }
+  label {
+  margin-bottom:0px;}
+  
+  
+  
+  
+      /* Style for the SumoSelect dropdown */
+      .SumoSelect {
+          /* Add your custom styles here */
+          width: 100%;
+          /*max-width: 336px;*/
+          background-color:#E2F1FF !important;
+          color: #728BA7 !important;
+      }
+      .SelectBox {
+          padding: 1.38em 1.5em;
+          height:3.5em;
+          display:flex;
+          align-items:center;
+      }
+      @media screen and (max-width: 479px) {
+       .SelectBox {
+          padding: 1.38em 1.5em;
+          height:3em;
+          display:flex;
+          align-items:center;
+      }
+      }
+      /* Style for the select field */
+    
+      .SumoSelect {
+          border-radius:100vw;
+          background-color: #13191F;
+       
+      }
+      .SumoSelect.open>.optWrapper {
+          border-radius:32px;
+          background-color: #E2F1FF;
+          padding:24px;
+          border: 1px solid #CCE6FF;
+          z-index:500;
+      }
+      .SumoSelect>.CaptionCont>label {
+          right:24px;
+      }
+      .SumoSelect>.CaptionCont>span.placeholder {
+          font-style:normal;
+          font-weight:600;
+          color:#728BA7;
+      }
+      .SumoSelect>.optWrapper>.options li.opt {
+          border-bottom:none;
+      }
+      .SumoSelect>.optWrapper>.options li.opt:hover {
+         background-color: transparent;
+      }
+      .SumoSelect .select-all>span i, .SumoSelect>.optWrapper.multiple>.options li.opt span i {
+          background-color: transparent;
+          border-radius: 3px;
+          border:1px solid #264970;
+      }
+      .SumoSelect.open>.CaptionCont, .SumoSelect:focus>.CaptionCont, .SumoSelect:hover>.CaptionCont {
+          box-shadow:none;
+      }
+      .SumoSelect>.CaptionCont {
+          border:none;
+      }
+      .SumoSelect.open>.optWrapper {
+          top:70px;
+      }
+      .SumoSelect .select-all.partial>span i, .SumoSelect .select-all.selected>span i, .SumoSelect>.optWrapper.multiple>.options li.opt.selected span i {
+          background-color: var(--accent--default--turquoise-00abaa);
+      }
+      .SumoSelect>.optWrapper>.options li label {
+          color:#0C315A;
+          white-space: normal;/*disbale truncate text for options*/
+      text-overflow: initial;/*disbale truncate text for options*/
+      }
+      .SumoSelect>.CaptionCont>label>i {
+          background-image:url('https://uploads-ssl.webflow.com/5f2bd20de11b965424e6cb83/651554846ddac34684352f3e_majesticons_chevron-down-line.svg')
+          
+  
+      }
+      .SumoSelect>.CaptionCont {
+          background-color: transparent;
+      }
+      /* Add this CSS to your existing styles */
+  .SumoSelect.optWrapper.open {
+      max-height: none;
+      overflow-y: visible;
+  }
+  
+  .SumoSelect>.optWrapper>.options {
+  max-height:268px;}
+  
+  .SumoSelect>.CaptionCont>span /*dropdown option text*/ {
+  font-size:1em;
+  font-weight:600;
+  color:#051E39;
+  }
+  
+  @media screen and (max-width: 479px) {
+  .SelectBox {
+  padding: 1.20em 1.6em;}
+  
+  .SumoSelect>.CaptionCont>label /*Dropdown icon*/ {
+  right:1.5em;
+  width:1.5em;}
+  }
+  
+  
+  /* Limit amount of lines in a text and add "..." to the end */
+    .success-text {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
