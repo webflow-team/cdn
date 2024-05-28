@@ -1,19 +1,19 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
-<script>
+
     let selects = document.querySelectorAll("select[ms-code=hide-first-option]");
     selects.forEach((select) => {
         let options = select.getElementsByTagName("option");
         options[0].hidden = true;
     });
-</script>
 
-<!-- Include necessary scripts -->
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/js/intlTelInput.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/js/utils.min.js"></script>
 
-<!-- Intl-tel-input -->
-<script>
+
+
 $(document).ready(function() {
     var input = document.querySelector("#phone");
     var errorMsg = document.querySelector("#error-msg");
@@ -103,9 +103,7 @@ $(document).ready(function() {
         }
     });
 });
-</script>
- <!--International phone number Dial code + Mobile no combined-->
- <script>
+
  $(function() {
   
   // Trigger when the form is submitted
@@ -126,18 +124,12 @@ $(document).ready(function() {
   });
   
 });
- </script>
- <script>
+
+
  // Change color of selected option when selected
 $('select').on('change', function() {
   $(this).css('color', '#051E39');
 });
-</script>
-
- <!--Intel Mobile no validation-->
- 
-<!--Show user's name in a Webflow Form success message-->
-<script>
 // when DOM is ready
 document.addEventListener('DOMContentLoaded', function () {
   // declare constant selectors
@@ -165,16 +157,10 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-</script>
-
-  <!--disable form first dropdown option-->
-<!--Enable if needed<script>
   $( "form option:first-child" ).attr("disabled","disabled");
 </script>-->
-
-<!--Jqury form validation code-->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script>
+
 $(".field").on("focusin", function () {
   $(this).siblings(".field_label").removeClass("large");
 });
@@ -183,14 +169,11 @@ $(".field").on("focusout", function () {
     $(this).siblings(".field_label").addClass("large");
   }
 });
-</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
-<script>
-// Learn more at https://jqueryvalidation.org/
-// Options at https://jqueryvalidation.org/validate/
-// Methods at https://jqueryvalidation.org/category/methods/
+
+
 $("#contact-form").validate({
   rules: {
     projectBudget: {
@@ -208,14 +191,9 @@ $("#contact-form").validate({
   }
 });
 
-
-</script>
-
-
-<!--Jquery Multiselect code -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.4.9/jquery.sumoselect.min.js"></script>
-<script>
+
     $(document).ready(function() {
       $('#mySelect').SumoSelect({
         placeholder: 'Select platforms', // Placeholder text
@@ -231,25 +209,19 @@ $("#contact-form").validate({
       });
   
     });
-  </script>
 
-<!--<script>
 var Webflow = Webflow || [];
 Webflow.push(function() {
   $('#contact-form').submit(function() {
     setTimeout(function() { location.reload(true); }, 5000);
   });
 });
-</script>-->
 
-<script>
+
 	$( "#reload-btn" ).click(function() {
   		location.reload();
 	});
-</script> 
 
-<!--Refresh page when form submission is sucessful-->
-<script>
   document.addEventListener('submit', function(event) {
     const form = event.target;
 
@@ -262,9 +234,9 @@ Webflow.push(function() {
       }, 5000);
     }
   });
-</script>
-<script>
+
+
 $('.fs-select_toggle-5-2').on('click', function() {
   $('.fs-select_text-5-2').addClass('fs-selected-black');
 });
-</script>
+
