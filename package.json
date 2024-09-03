@@ -1,7 +1,7 @@
 {
   "name": "fyndflow",
-  "version": "1.0.1",
-  "description": "First version ",
+  "version": "1.0.1-fynd-commercetest1",
+  "description": "Alpha",
   "main": "Disable_scroll_nav_open.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

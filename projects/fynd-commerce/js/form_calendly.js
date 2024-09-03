@@ -74,18 +74,6 @@ $(document).ready(function () {
       $(this).removeClass("invalid");
     }
   });
-  $("#btnSubmit").click(function () {
-    var requiredFields = $(":input[required]");
-    var isValid = true;
-    requiredFields.each(function () {
-      if ($(this).val() === "") {
-        $(this).addClass("invalid");
-        isValid = false;
-      } else {
-        $(this).removeClass("invalid");
-      }
-    });
-  });
 });
 
 //int-tel mobile code end
@@ -93,7 +81,7 @@ $(document).ready(function () {
 //International phone number Dial code + Mobile no combined-
 $(function () {
   // Trigger when the form is submitted
-  $("#contact-form").on("submit", function (e) {
+  $('[data-validate-form="true"]').on("submit", function (e) {
     // Combine the phone parts into the #fullPhone input
     // This will be passed through in the form submit
     $("#fullPhone").val(
