@@ -134,20 +134,23 @@ form.addEventListener("submit", (event) => {
   }
 });
 
-//Redirect page  page after 5 seconds
+// Redirect page after 5 seconds
 document.addEventListener("submit", function (event) {
   const form = event.target;
 
-  if (form.checkValidity() === false) {
-    // Check for errors
-    event.preventDefault(); // Prevent form submission
-    // Handle error display or messages here
-    // ...
-  } else {
-    event.preventDefault(); // Prevent form submission
-    setTimeout(function () {
-      window.location.href = "/thank-you"; // Redirect to the desired URL after 5 seconds
-    }, 10000);
+  // Check if the form has the specific data-form attribute
+  if (form.getAttribute("data-form") === "speak-expert") {
+    if (form.checkValidity() === false) {
+      // Check for errors
+      event.preventDefault(); // Prevent form submission
+      // Handle error display or messages here
+      // ...
+    } else {
+      event.preventDefault(); // Prevent form submission
+      setTimeout(function () {
+        window.location.href = "/thank-you"; // Redirect to the desired URL after 5 seconds
+      }, 5000); // Change this to 5000 for a 5-second delay
+    }
   }
 });
 
