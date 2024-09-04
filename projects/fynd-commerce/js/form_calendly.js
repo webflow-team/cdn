@@ -105,7 +105,6 @@ $(document).ready(function () {
     let originalText = formBtn.value;
 
     if (form.checkValidity() === false) {
-      // Check for errors
       event.preventDefault(); // Prevent form submission
     } else {
       event.preventDefault(); // Prevent form submission
@@ -130,47 +129,76 @@ $(document).ready(function () {
   });
 
   // For forms with both attributes (validation and redirection)
-  $("[data-validate-form='true'][data-form='speak-expert']").on("submit", function (event) {
-    var requiredFields = $(":input[required]");
-    var isValid = true;
-    requiredFields.each(function () {
-      if ($(this).val() === "") {
-        $(this).addClass("invalid");
-        isValid = false;
-      } else {
-        $(this).removeClass("invalid");
+  $("[data-validate-form='true'][data-form='speak-expert']").on(
+    "submit",
+    function (event) {
+      var requiredFields = $(":input[required]");
+      var isValid = true;
+      requiredFields.each(function () {
+        if ($(this).val() === "") {
+          $(this).addClass("invalid");
+          isValid = false;
+        } else {
+          $(this).removeClass("invalid");
+        }
+      });
+
+      if (!isValid) {
+        event.preventDefault(); // Prevent form submission if validation fails
+        return;
+      }
+
+      // Proceed with redirection if validation passes
+      const form = $(this).get(0);
+      const emailInput = document.getElementById("email");
+      const nameInput = document.getElementById("name");
+      const formBtn = document.getElementById("form-btn");
+      let originalText = formBtn.value;
+
+      event.preventDefault(); // Prevent form submission
+      let URL = "https://calendly.com/d/ckd3-yjg-zkt/speak-to-a-fynd-expert"; // Change the URL
+
+      let emailURL = `${URL}?email=${encodeURIComponent(
+        emailInput.value
+      )}&name=${encodeURIComponent(nameInput.value)}`;
+
+      formBtn.value = "Redirecting...";
+
+      setTimeout(() => {
+        window.open(emailURL);
+        formBtn.value = originalText;
+      }, 2000);
+
+      // Redirect to the thank you page after 5 seconds
+      setTimeout(function () {
+        window.location.href = "/thank-you";
+      }, 5000);
+    }
+  );
+});
+
+// Combined event listener for DOMContentLoaded
+document.addEventListener("DOMContentLoaded", function () {
+  // Capture date only for forms with the attribute data-form="speak-expert"
+  const form = document.querySelector('[data-form="speak-expert"]');
+  if (form) {
+    form.addEventListener("submit", function (event) {
+      const now = new Date();
+      const day = String(now.getDate()).padStart(2, "0");
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const year = now.getFullYear();
+      const formattedDate = `${day}-${month}-${year}`;
+      const dateInput = document.getElementById("current-date");
+      if (dateInput) {
+        dateInput.value = formattedDate;
       }
     });
+  }
 
-    if (!isValid) {
-      event.preventDefault(); // Prevent form submission if validation fails
-      return;
-    }
-
-    // Proceed with redirection if validation passes
-    const form = $(this).get(0);
-    const emailInput = document.getElementById("email");
-    const nameInput = document.getElementById("name");
-    const formBtn = document.getElementById("form-btn");
-    let originalText = formBtn.value;
-
-    event.preventDefault(); // Prevent form submission
-    let URL = "https://calendly.com/d/ckd3-yjg-zkt/speak-to-a-fynd-expert"; // Change the URL
-
-    let emailURL = `${URL}?email=${encodeURIComponent(
-      emailInput.value
-    )}&name=${encodeURIComponent(nameInput.value)}`;
-
-    formBtn.value = "Redirecting...";
-
-    setTimeout(() => {
-      window.open(emailURL);
-      formBtn.value = originalText;
-    }, 2000);
-
-    // Redirect to the thank you page after 5 seconds
-    setTimeout(function () {
-      window.location.href = "/thank-you";
-    }, 5000);
-  });
+  // Capture page title
+  const pageName = document.title;
+  const pageNameInput = document.getElementById("pageName");
+  if (pageNameInput) {
+    pageNameInput.value = pageName;
+  }
 });
