@@ -94,56 +94,6 @@ $(function () {
   });
 });
 
-// when DOM is ready
-document.addEventListener("DOMContentLoaded", function () {
-  // declare constant selectors
-  const FORM_SELECTOR = '[fs-hacks-element="form"]';
-  const NAME_INPUT_SELECTOR = '[fs-hacks-element="name-input"]';
-  const MESSAGE_SELECTOR = '[fs-hacks-element="custom-message"]';
-  const form = document.querySelector(FORM_SELECTOR); // early return
-
-  if (!form) return;
-  const nameInput = form.querySelector(NAME_INPUT_SELECTOR);
-  const messageDiv = document.querySelector(MESSAGE_SELECTOR);
-
-  if (!nameInput || !messageDiv) return; // when form is submitted
-
-  nameInput.addEventListener("input", function () {
-    const nameValue = nameInput.value;
-
-    if (nameValue && nameValue !== "") {
-      messageDiv.innerText = `Thanks for reaching out, ${nameValue}. We will get back to you soon.`;
-    } else {
-      messageDiv.innerText = "Thank you! Your submission has been received!";
-    }
-  });
-});
-
-//Show user's name in a Webflow Form success message
-document.addEventListener("DOMContentLoaded", function () {
-  // declare constant selectors
-  const FORM_SELECTOR = '[fs-hacks-element="form"]';
-  const NAME_INPUT_SELECTOR = '[fs-hacks-element="name-input"]';
-  const MESSAGE_SELECTOR = '[fs-hacks-element="custom-message"]';
-  const form = document.querySelector(FORM_SELECTOR); // early return
-
-  if (!form) return;
-  const nameInput = form.querySelector(NAME_INPUT_SELECTOR);
-  const messageDiv = document.querySelector(MESSAGE_SELECTOR);
-
-  if (!nameInput || !messageDiv) return; // when form is submitted
-
-  nameInput.addEventListener("input", function () {
-    const nameValue = nameInput.value;
-
-    if (nameValue && nameValue !== "") {
-      messageDiv.innerText = `Thanks for reaching out, ${nameValue}. We will get back to you soon.`;
-    } else {
-      messageDiv.innerText = "Thank you! Your submission has been received!";
-    }
-  });
-});
-
 // form validation
 $("[data-validate-form='true']").each(function () {
   $(this).validate({
@@ -261,4 +211,38 @@ $(".fs-select_toggle-5-2").on("click", function () {
 
   // Add class only to the text field related to the clicked toggle
   $(this).find(".fs-select_text-5-2").addClass("fs-selected-black");
+});
+
+//capture page title
+//capture page title and send with form
+document.addEventListener("DOMContentLoaded", function () {
+  // Get the current page name from the document title
+  const pageName = document.title;
+
+  // Set the hidden input field value to the page name
+  document.getElementById("pageName").value = pageName;
+});
+
+//Get current date
+// Wait for the DOM to be ready
+document.addEventListener("DOMContentLoaded", function () {
+  // Select the form element
+  const form = document.querySelector('form[data-form="speak-expert"]');
+
+  // Listen for the form submission event
+  form.addEventListener("submit", function (event) {
+    // Create a new Date object
+    const now = new Date();
+
+    // Get the day, month, and year
+    const day = String(now.getDate()).padStart(2, "0");
+    const month = String(now.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const year = now.getFullYear();
+
+    // Format the date as DD-MM-YYYY
+    const formattedDate = `${day}-${month}-${year}`;
+
+    // Set the value of the hidden input field to the formatted date
+    document.getElementById("current-date").value = formattedDate;
+  });
 });
