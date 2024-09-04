@@ -173,8 +173,8 @@ document.addEventListener("DOMContentLoaded", function () {
   pageUrl.innerText = url;
 });
 
-//Redirect to Calendly
-const form = document.querySelector('[data-errorplace="true"]');
+// Redirect to Calendly
+const form = document.querySelector('[data-form="speak-expert"]');
 const emailInput = document.querySelector('[data-input="email"]');
 const nameInput = document.querySelector('[data-input="name"]');
 const formBtn = document.querySelector('[data-btn="form-btn"]');
@@ -187,7 +187,7 @@ if (form && emailInput && nameInput && formBtn) {
 
     if (form.checkValidity() === false) {
       // Handle error display or messages here
-      // For example, you can add classes to show error states or display messages
+      // Add logic to show error messages if needed
     } else {
       let URL = "https://calendly.com/d/ckd3-yjg-zkt/speak-to-a-fynd-expert"; // Change the URL
       let emailURL = `${URL}?email=${encodeURIComponent(
@@ -203,7 +203,9 @@ if (form && emailInput && nameInput && formBtn) {
     }
   });
 } else {
-  console.error("Required form elements not found.");
+  console.error(
+    "Required form elements not found or form not correctly configured."
+  );
 }
 
 //multiselect feild color change
