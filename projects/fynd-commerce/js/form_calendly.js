@@ -134,23 +134,27 @@ form.addEventListener("submit", (event) => {
   }
 });
 
-// Redirect page after 5 seconds
+// Listen for form submission events
 document.addEventListener("submit", function (event) {
   const form = event.target;
 
-  // Check if the form has the specific data-form attribute
-  if (form.getAttribute("data-form") === "speak-expert") {
-    if (form.checkValidity() === false) {
-      // Check for errors
-      event.preventDefault(); // Prevent form submission
-      // Handle error display or messages here
-      // ...
-    } else {
-      event.preventDefault(); // Prevent form submission
-      setTimeout(function () {
-        window.location.href = "/thank-you"; // Redirect to the desired URL after 5 seconds
-      }, 5000); // Change this to 5000 for a 5-second delay
+  // Check if the target is a form and has the specific data-form attribute
+  if (
+    form.tagName === "FORM" &&
+    form.getAttribute("data-form") === "speak-expert"
+  ) {
+    event.preventDefault(); // Prevent form submission by default
+
+    if (!form.checkValidity()) {
+      // Form validation failed, display errors
+      // You can show error messages here if needed
+      return; // Stop further execution
     }
+
+    // Form is valid, proceed with redirection after 5 seconds
+    setTimeout(function () {
+      window.location.href = "/thank-you"; // Redirect to the desired URL after 5 seconds
+    }, 5000); // 5000 milliseconds = 5 seconds
   }
 });
 
@@ -169,34 +173,38 @@ document.addEventListener("DOMContentLoaded", function () {
   pageUrl.innerText = url;
 });
 
-//Redirect to calendly
-document.addEventListener("submit", function (event) {
-  const form = document.querySelector('[data-errorplace="true"]');
-  const emailInput = document.querySelector('[data-input="email"]');
-  const nameInput = document.querySelector('[data-input="name"]');
-  const formBtn = document.querySelector('[data-btn="form-btn"]');
+//Redirect to Calendly
+const form = document.querySelector('[data-errorplace="true"]');
+const emailInput = document.querySelector('[data-input="email"]');
+const nameInput = document.querySelector('[data-input="name"]');
+const formBtn = document.querySelector('[data-btn="form-btn"]');
+
+if (form && emailInput && nameInput && formBtn) {
   let originalText = formBtn.value;
-  if (form.checkValidity() === false) {
-    // Check for errors
+
+  form.addEventListener("submit", function (event) {
     event.preventDefault(); // Prevent form submission
-    // Handle error display or messages here
-    // ...
-  } else {
-    event.preventDefault(); // Prevent form submission
-    let URL = "https://calendly.com/d/ckd3-yjg-zkt/speak-to-a-fynd-expert"; // Change the URL
 
-    let emailURL = `${URL}?email=${encodeURIComponent(
-      emailInput.value
-    )}&name=${encodeURIComponent(nameInput.value)}`;
+    if (form.checkValidity() === false) {
+      // Handle error display or messages here
+      // For example, you can add classes to show error states or display messages
+    } else {
+      let URL = "https://calendly.com/d/ckd3-yjg-zkt/speak-to-a-fynd-expert"; // Change the URL
+      let emailURL = `${URL}?email=${encodeURIComponent(
+        emailInput.value
+      )}&name=${encodeURIComponent(nameInput.value)}`;
 
-    formBtn.value = "Redirecting...";
+      formBtn.value = "Redirecting...";
 
-    setTimeout(() => {
-      window.open(emailURL);
-      formBtn.value = originalText;
-    }, 2000);
-  }
-});
+      setTimeout(() => {
+        window.open(emailURL, "_blank"); // Opens in a new tab
+        formBtn.value = originalText;
+      }, 2000);
+    }
+  });
+} else {
+  console.error("Required form elements not found.");
+}
 
 //multiselect feild color change
 $(".fs-select_field-5").on("change", function () {
