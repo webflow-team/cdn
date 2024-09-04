@@ -1,9 +1,8 @@
 $(document).ready(function () {
-  // Phone number validation setup
-  var input = document.querySelector('[data-input="phone"]');
-  var dialCode = document.querySelector(".dialCode");
-  var errorMsg = document.querySelector("#error-msg");
-  var validMsg = document.querySelector("#valid-msg");
+  var input = document.querySelector("#phone"),
+    dialCode = document.querySelector(".dialCode"),
+    errorMsg = document.querySelector("#error-msg"),
+    validMsg = document.querySelector("#valid-msg");
 
   var iti = intlTelInput(input, {
     initialCountry: "auto",
@@ -16,13 +15,35 @@ $(document).ready(function () {
     },
   });
 
-  var updateInputValue = function () {
+  var updateInputValue = function (event) {
     dialCode.value = "+" + iti.getSelectedCountryData().dialCode;
   };
   input.addEventListener("input", updateInputValue, false);
   input.addEventListener("countrychange", updateInputValue, false);
 
-  // Validate phone on blur
+  var errorMap = [
+    "Please enter the valid phone number",
+    "Invalid country code",
+    "Too short",
+    "Too long",
+    "Invalid number",
+  ];
+
+  var reset = function () {
+    input.classList.remove("error");
+    errorMsg.innerHTML = "";
+    errorMsg.classList.add("errorhide");
+    validMsg.classList.add("errorhide");
+  };
+
+  // Regular expression for validating phone numbers
+  var phoneRegex = /^(?:[0-9]●?){6,14}[0-9]$/;
+
+  // Function to validate phone number
+  function isValidPhoneNumber(phoneNumber) {
+    return phoneRegex.test(phoneNumber);
+  }
+
   input.addEventListener("blur", function () {
     reset();
     var phoneNumber = $(this).val();
@@ -43,60 +64,113 @@ $(document).ready(function () {
     }
   });
 
-  // Combine form submission handling into one block
-  $('[data-validate-form="true"]').on("submit", function (event) {
-    event.preventDefault();
-    reset();
+  input.addEventListener("change", reset);
+  input.addEventListener("keyup", reset);
 
-    // Check phone number validity
-    if (!input.value.trim() || !iti.isValidNumber()) {
-      showError("Invalid or missing phone number.");
-      return; // Stop if validation fails
-    }
-
-    // Additional validation checks
-    if (!this.checkValidity()) {
-      // Handle form validation errors here
-      return;
-    }
-
-    // Redirect logic
-    if (formShouldRedirectToCalendly()) {
-      redirectToCalendly();
+  $(":input[required]").blur(function () {
+    if ($(this).val() === "") {
+      $(this).addClass("invalid");
     } else {
-      // Default thank-you page redirect after 5 seconds
-      setTimeout(() => {
-        window.location.href = "/thank-you";
-      }, 5000); // Corrected to 5 seconds
+      $(this).removeClass("invalid");
     }
   });
 
-  function showError(message) {
-    errorMsg.textContent = message;
-    errorMsg.classList.remove("errorhide");
-  }
+  // Form validation when the form has data-validate-form="true"
+  $("[data-validate-form='true']").on("submit", function (e) {
+    var requiredFields = $(":input[required]");
+    var isValid = true;
+    requiredFields.each(function () {
+      if ($(this).val() === "") {
+        $(this).addClass("invalid");
+        isValid = false;
+      } else {
+        $(this).removeClass("invalid");
+      }
+    });
 
-  function formShouldRedirectToCalendly() {
-    // Logic to determine if the form should redirect to Calendly
-    // For example, check specific form field values or other conditions
-    return false; // Change based on your condition
-  }
+    // Combine phone parts into the #fullPhone input
+    $("#fullPhone").val(`${$("#dialCode").val()} ${$("#phone").val()}`);
 
-  function redirectToCalendly() {
-    let URL = "https://calendly.com/d/ckd3-yjg-zkt/speak-to-a-fynd-expert";
-    let emailInput = document.querySelector('[data-input="email"]').value;
-    let nameInput = document.querySelector('[data-input="name"]').value;
+    if (!isValid) {
+      e.preventDefault();
+    }
+  });
 
-    let calendlyURL = `${URL}?email=${encodeURIComponent(
-      emailInput
-    )}&name=${encodeURIComponent(nameInput)}`;
-    window.open(calendlyURL, "_blank");
-  }
+  // Redirect to thank you page and Calendly for forms with data-form="speak-expert"
+  $("[data-form='speak-expert']").on("submit", function (event) {
+    const form = $(this).get(0);
+    const emailInput = document.getElementById("email");
+    const nameInput = document.getElementById("name");
+    const formBtn = document.getElementById("form-btn");
+    let originalText = formBtn.value;
 
-  // Reset function
-  function reset() {
-    input.classList.remove("error");
-    errorMsg.classList.add("errorhide");
-    validMsg.classList.add("errorhide");
-  }
+    if (form.checkValidity() === false) {
+      // Check for errors
+      event.preventDefault(); // Prevent form submission
+    } else {
+      event.preventDefault(); // Prevent form submission
+      let URL = "https://calendly.com/d/ckd3-yjg-zkt/speak-to-a-fynd-expert"; // Change the URL
+
+      let emailURL = `${URL}?email=${encodeURIComponent(
+        emailInput.value
+      )}&name=${encodeURIComponent(nameInput.value)}`;
+
+      formBtn.value = "Redirecting...";
+
+      setTimeout(() => {
+        window.open(emailURL);
+        formBtn.value = originalText;
+      }, 2000);
+
+      // Redirect to the thank you page after 5 seconds
+      setTimeout(function () {
+        window.location.href = "/thank-you";
+      }, 5000);
+    }
+  });
+
+  // For forms with both attributes (validation and redirection)
+  $("[data-validate-form='true'][data-form='speak-expert']").on("submit", function (event) {
+    var requiredFields = $(":input[required]");
+    var isValid = true;
+    requiredFields.each(function () {
+      if ($(this).val() === "") {
+        $(this).addClass("invalid");
+        isValid = false;
+      } else {
+        $(this).removeClass("invalid");
+      }
+    });
+
+    if (!isValid) {
+      event.preventDefault(); // Prevent form submission if validation fails
+      return;
+    }
+
+    // Proceed with redirection if validation passes
+    const form = $(this).get(0);
+    const emailInput = document.getElementById("email");
+    const nameInput = document.getElementById("name");
+    const formBtn = document.getElementById("form-btn");
+    let originalText = formBtn.value;
+
+    event.preventDefault(); // Prevent form submission
+    let URL = "https://calendly.com/d/ckd3-yjg-zkt/speak-to-a-fynd-expert"; // Change the URL
+
+    let emailURL = `${URL}?email=${encodeURIComponent(
+      emailInput.value
+    )}&name=${encodeURIComponent(nameInput.value)}`;
+
+    formBtn.value = "Redirecting...";
+
+    setTimeout(() => {
+      window.open(emailURL);
+      formBtn.value = originalText;
+    }, 2000);
+
+    // Redirect to the thank you page after 5 seconds
+    setTimeout(function () {
+      window.location.href = "/thank-you";
+    }, 5000);
+  });
 });
