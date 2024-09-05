@@ -74,16 +74,12 @@ $(document).ready(function () {
       $(this).removeClass("invalid");
     }
   });
-  $("#contact_form").each(function () {
+
+  // form validation
+  $("[data-validate-form='true']").each(function () {
     $(this).validate({
       errorPlacement: function (error, element) {
-        console.log("Placing error for:", element); // Debug log to check if function is triggered
-        let errorContainer = element.closest(".field_wrap");
-        if (errorContainer.length > 0) {
-          error.appendTo(errorContainer);
-        } else {
-          console.warn("Error placement target not found for:", element);
-        }
+        error.appendTo(element.closest("[data-errorplace='true']"));
       },
     });
   });
@@ -137,7 +133,7 @@ $(document).ready(function () {
       // Redirect to the thank you page after 5 seconds
       setTimeout(function () {
         window.location.href = "/thank-you";
-      }, 5000);
+      }, 1000);
     }
   });
 
