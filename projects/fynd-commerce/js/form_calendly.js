@@ -77,10 +77,17 @@ $(document).ready(function () {
   $("[data-validate-form='true']").each(function () {
     $(this).validate({
       errorPlacement: function (error, element) {
-        error.appendTo(element.closest("[data-errorplace='true']"));
+        console.log("Placing error for:", element); // Debug log to check if function is triggered
+        let errorContainer = element.closest("[data-errorplace='true']");
+        if (errorContainer.length > 0) {
+          error.appendTo(errorContainer);
+        } else {
+          console.warn("Error placement target not found for:", element);
+        }
       },
     });
   });
+
   // Form validation when the form has data-validate-form="true"
   $("[data-validate-form='true']").on("submit", function (e) {
     var requiredFields = $(":input[required]");
