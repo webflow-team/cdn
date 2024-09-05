@@ -74,7 +74,18 @@ $(document).ready(function () {
       $(this).removeClass("invalid");
     }
   });
-  $("#btnSubmit").click(function () {
+
+  // form validation
+  $("[data-validate-form='true']").each(function () {
+    $(this).validate({
+      errorPlacement: function (error, element) {
+        error.appendTo(element.closest("[data-errorplace='true']"));
+      },
+    });
+  });
+
+  // Form validation when the form has data-validate-form="true"
+  $("[data-validate-form='true']").on("submit", function (e) {
     var requiredFields = $(":input[required]");
     var isValid = true;
     requiredFields.each(function () {
@@ -85,142 +96,118 @@ $(document).ready(function () {
         $(this).removeClass("invalid");
       }
     });
-  });
-});
 
-//int-tel mobile code end
-
-//International phone number Dial code + Mobile no combined-
-$(function () {
-  // Trigger when the form is submitted
-  $("#contact-form").on("submit", function (e) {
-    // Combine the phone parts into the #fullPhone input
-    // This will be passed through in the form submit
+    // Combine phone parts into the #fullPhone input
     $("#fullPhone").val(`${$("#dialCode").val()} ${$("#phone").val()}`);
 
-    // DEBUG - REMOVE THIS IN YOUR CODE
-    // Write the results to the console so we can see if it worked
-    console.log(JSON.stringify($("form").serializeArray()));
+    if (!isValid) {
+      e.preventDefault();
+    }
   });
+
+  // Redirect to thank you page and Calendly for forms with data-form="speak-expert"
+  $("[data-form='speak-expert']").on("submit", function (event) {
+    const form = $(this).get(0);
+    const emailInput = document.getElementById("email");
+    const nameInput = document.getElementById("name");
+    const formBtn = document.getElementById("form-btn");
+    let originalText = formBtn.value;
+
+    if (form.checkValidity() === false) {
+      event.preventDefault(); // Prevent form submission
+    } else {
+      event.preventDefault(); // Prevent form submission
+      let URL = "https://calendly.com/d/ckd3-yjg-zkt/speak-to-a-fynd-expert"; // Change the URL
+
+      let emailURL = `${URL}?email=${encodeURIComponent(
+        emailInput.value
+      )}&name=${encodeURIComponent(nameInput.value)}`;
+
+      formBtn.value = "Redirecting...";
+
+      setTimeout(() => {
+        window.open(emailURL);
+        formBtn.value = originalText;
+      }, 2000);
+
+      // Redirect to the thank you page after 5 seconds
+      setTimeout(function () {
+        window.location.href = "/thank-you";
+      }, 1000);
+    }
+  });
+
+  // For forms with both attributes (validation and redirection)
+  $("[data-validate-form='true'][data-form='speak-expert']").on(
+    "submit",
+    function (event) {
+      var requiredFields = $(":input[required]");
+      var isValid = true;
+      requiredFields.each(function () {
+        if ($(this).val() === "") {
+          $(this).addClass("invalid");
+          isValid = false;
+        } else {
+          $(this).removeClass("invalid");
+        }
+      });
+
+      if (!isValid) {
+        event.preventDefault(); // Prevent form submission if validation fails
+        return;
+      }
+
+      // Proceed with redirection if validation passes
+      const form = $(this).get(0);
+      const emailInput = document.getElementById("email");
+      const nameInput = document.getElementById("name");
+      const formBtn = document.getElementById("form-btn");
+      let originalText = formBtn.value;
+
+      event.preventDefault(); // Prevent form submission
+      let URL = "https://calendly.com/d/ckd3-yjg-zkt/speak-to-a-fynd-expert"; // Change the URL
+
+      let emailURL = `${URL}?email=${encodeURIComponent(
+        emailInput.value
+      )}&name=${encodeURIComponent(nameInput.value)}`;
+
+      formBtn.value = "Redirecting...";
+
+      setTimeout(() => {
+        window.open(emailURL);
+        formBtn.value = originalText;
+      }, 2000);
+
+      // Redirect to the thank you page after 5 seconds
+      setTimeout(function () {
+        window.location.href = "/thank-you";
+      }, 5000);
+    }
+  );
 });
 
-//jquery form validation
-$(".field").on("focusin", function () {
-  $(this).siblings(".field_label").removeClass("large");
-});
-$(".field").on("focusout", function () {
-  if ($(this).val().length == 0) {
-    $(this).siblings(".field_label").addClass("large");
-  }
-});
-
-$("#contact-form").validate({
-  rules: {
-    projectBudget: {
-      required: true,
-    },
-
-    Phone: {
-      required: true,
-      phoneUS: true,
-    },
-  },
-  errorPlacement: function (error, element) {
-    error.appendTo(element.closest(".field_wrap"));
-  },
-});
-
-//Redirect page  page after 5 seconds
-document.addEventListener("submit", function (event) {
-  const form = event.target;
-
-  if (form.checkValidity() === false) {
-    // Check for errors
-    event.preventDefault(); // Prevent form submission
-    // Handle error display or messages here
-    // ...
-  } else {
-    event.preventDefault(); // Prevent form submission
-    setTimeout(function () {
-      window.location.href = "/thank-you"; // Redirect to the desired URL after 5 seconds
-    }, 10000);
-  }
-});
-
-// capture page url
+// Combined event listener for DOMContentLoaded
 document.addEventListener("DOMContentLoaded", function () {
-  const SHOW_PAGE_URL_SELECTOR = '[fs-hacks-element="show-page-url"]';
-  const PAGE_URL_INPUT_SELECTOR = '[fs-hacks-element="page-url-input"]';
-  const pageUrl = document.querySelector(SHOW_PAGE_URL_SELECTOR);
-  const pageUrlInput = document.querySelector(PAGE_URL_INPUT_SELECTOR);
-
-  if (!pageUrl || !pageUrlInput) return;
-  const url = location.href;
-
-  pageUrlInput.value = url;
-
-  pageUrl.innerText = url;
-});
-
-//Redirect to calendly
-document.addEventListener("submit", function (event) {
-  const form = document.getElementById("contact-form");
-  const emailInput = document.getElementById("email");
-  const nameInput = document.getElementById("name");
-  const formBtn = document.getElementById("form-btn");
-  let originalText = formBtn.value;
-  if (form.checkValidity() === false) {
-    // Check for errors
-    event.preventDefault(); // Prevent form submission
-    // Handle error display or messages here
-    // ...
-  } else {
-    event.preventDefault(); // Prevent form submission
-    let URL = "https://calendly.com/d/ckd3-yjg-zkt/speak-to-a-fynd-expert"; // Change the URL
-
-    let emailURL = `${URL}?email=${encodeURIComponent(
-      emailInput.value
-    )}&name=${encodeURIComponent(nameInput.value)}`;
-
-    formBtn.value = "Redirecting...";
-
-    setTimeout(() => {
-      window.open(emailURL);
-      formBtn.value = originalText;
-    }, 2000);
+  // Capture date only for forms with the attribute data-form="speak-expert"
+  const form = document.querySelector('[data-form="speak-expert"]');
+  if (form) {
+    form.addEventListener("submit", function (event) {
+      const now = new Date();
+      const day = String(now.getDate()).padStart(2, "0");
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const year = now.getFullYear();
+      const formattedDate = `${day}-${month}-${year}`;
+      const dateInput = document.getElementById("current-date");
+      if (dateInput) {
+        dateInput.value = formattedDate;
+      }
+    });
   }
-});
 
-//multiselect feild color change
-$(".fs-select_field-5").on("change", function () {
-  // Reset color for all select fields to default
-  $(".fs-select_field-5").css("color", "");
-
-  // Apply the color only to the current select field
-  $(this).css("color", "#051E39");
-});
-
-// Add class to the specific select text when the toggle is clicked
-$(".fs-select_toggle-5-2").on("click", function () {
-  // Remove class from all select text fields
-  $(".fs-select_text-5-2").removeClass("fs-selected-black");
-
-  // Add class only to the text field related to the clicked toggle
-  $(this).find(".fs-select_text-5-2").addClass("fs-selected-black");
-});
-
-//Check mobile no when submit is pressed
-form.addEventListener("submit", (event) => {
-  reset();
-  if (!input.value.trim()) {
-    showError("Required");
-    event.preventDefault(); // Prevent form submission
-  } else if (iti.isValidNumber()) {
-    validMsg.classList.remove("hide");
-  } else {
-    const errorCode = iti.getValidationError();
-    const msg = errorMap[errorCode] || "Invalid number";
-    showError(msg);
-    event.preventDefault(); // Prevent form submission
+  // Capture page title
+  const pageName = document.title;
+  const pageNameInput = document.getElementById("pageName");
+  if (pageNameInput) {
+    pageNameInput.value = pageName;
   }
 });
