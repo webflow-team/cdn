@@ -74,7 +74,13 @@ $(document).ready(function () {
       $(this).removeClass("invalid");
     }
   });
-
+  $("[data-validate-form='true']").each(function () {
+    $(this).validate({
+      errorPlacement: function (error, element) {
+        error.appendTo(element.closest("[data-errorplace='true']"));
+      },
+    });
+  });
   // Form validation when the form has data-validate-form="true"
   $("[data-validate-form='true']").on("submit", function (e) {
     var requiredFields = $(":input[required]");
