@@ -78,7 +78,7 @@ $(document).ready(function () {
     $(this).validate({
       errorPlacement: function (error, element) {
         console.log("Placing error for:", element); // Debug log to check if function is triggered
-        let errorContainer = element.closest("[data-errorplace='true']");
+        let errorContainer = element.closest(".field_wrap");
         if (errorContainer.length > 0) {
           error.appendTo(errorContainer);
         } else {
