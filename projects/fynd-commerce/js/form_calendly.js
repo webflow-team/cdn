@@ -74,7 +74,7 @@ $(document).ready(function () {
       $(this).removeClass("invalid");
     }
   });
-  $("[data-validate-form='true']").each(function () {
+  $("#contact_form").each(function () {
     $(this).validate({
       errorPlacement: function (error, element) {
         console.log("Placing error for:", element); // Debug log to check if function is triggered
