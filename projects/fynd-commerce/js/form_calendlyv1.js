@@ -128,12 +128,12 @@ $(document).ready(function () {
       setTimeout(() => {
         window.open(emailURL);
         formBtn.value = originalText;
-      }, 2000);
+      }, 1000);
 
       // Redirect to the thank you page after 5 seconds
       setTimeout(function () {
         window.location.href = "/thank-you";
-      }, 1000);
+      }, 3000);
     }
   });
 
