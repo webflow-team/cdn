@@ -35,7 +35,11 @@ select{
   .iti--allow-dropdown .iti__flag-container:hover .iti__selected-flag {
   background-color:#E2F1FF !important;
   }
-  
+  .iti--allow-dropdown input,.iti--allow-dropdown input[type=tel],.iti--allow-dropdown input[type=text],.iti--separate-dial-code input,.iti--separate-dial-code input[type=tel],.iti--separate-dial-code input[type=text] {
+    padding-right: 6px;
+    padding-left: 57px;
+    margin-left: 0
+}
   .iti__dial-code {
   color:#8a8aa8 !important;
   font-size:0.75em !important;
