@@ -54,7 +54,7 @@ cards.forEach((card) => {
       .to(
         nameWrapper,
         {
-          backgroundColor: "rgba(105,51,250,1)", // Background color animation
+          backgroundColor: "#902EF2", // Background color animation
           duration: 0.3,
           ease: "ease.out",
         },
