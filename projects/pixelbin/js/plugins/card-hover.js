@@ -1,3 +1,4 @@
+//j
 document.querySelectorAll(".home-tools_card").forEach((card) => {
   card.addEventListener("mouseenter", () => {
     // Find all videos inside the card
