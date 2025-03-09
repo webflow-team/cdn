@@ -1,0 +1,10 @@
+label.error {
+  font-size: 12px;
+  color: var(--text-color--text-error);
+  margin-top: 0.375em;
+  line-height: 100%;
+
+  width: 100%;
+  font-weight: 400;
+  transition: all 500ms ease-in-out;
+}
