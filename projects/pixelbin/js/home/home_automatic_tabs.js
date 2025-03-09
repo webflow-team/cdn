@@ -1,3 +1,4 @@
+//test
 document.addEventListener("DOMContentLoaded", function () {
   // 1. Find the element with home-automatic-tabs
   const tabMenu = document.querySelector("[home-automatic-tabs]");
