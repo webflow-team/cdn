@@ -1,4 +1,4 @@
-// Register the ScrollTrigger and FLIP plugin
+// Register the ScrollTrigger and FLIP pluginz
 gsap.registerPlugin(ScrollTrigger);
 
 //nav elements
