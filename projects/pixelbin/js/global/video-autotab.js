@@ -39,18 +39,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const updateProgressBar = (video, progressBar) => {
     if (!video || !progressBar) return;
 
+    clearInterval(progressInterval); // Clear previous interval
+    progressBar.style.width = "0%"; // Reset progress bar
+
     const update = () => {
       if (!video.paused) {
         const progress = (video.currentTime / video.duration) * 100;
         progressBar.style.width = `${progress}%`;
 
-        if (progress < 100) {
+        if (progress >= 100) {
+          clearInterval(progressInterval); // Stop when 100% is reached
+        } else {
           progressInterval = requestAnimationFrame(update);
         }
       }
     };
 
-    // Start updating progress bar without resetting it
     progressInterval = requestAnimationFrame(update);
   };
 
@@ -60,19 +64,14 @@ document.addEventListener("DOMContentLoaded", () => {
       (entries) => {
         entries.forEach((entry) => {
           const video = entry.target.querySelector("video");
-          const progressBar = entry.target.querySelector(
-            '[pb-video-tab="progressbar"]'
-          );
 
           if (entry.isIntersecting) {
             if (video) {
               video.play();
-              updateProgressBar(video, progressBar); // Resume progress bar
             }
           } else {
             if (video) {
               video.pause();
-              cancelAnimationFrame(progressInterval); // Pause progress bar animation
             }
           }
         });
@@ -95,6 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
         currentProgressBar = progressBar;
         pauseAllVideos();
 
+        video.currentTime = 0;
         video.play();
         updateProgressBar(video, progressBar);
 
