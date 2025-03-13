@@ -8,7 +8,7 @@ const swiperContent = new Swiper("#tab-content-swiper", {
   centeredSlides: true,
   autoplay: {
     disableOnInteraction: false,
-    pauseOnMouseEnter: false, // Pause Swiper on hover
+    pauseOnMouseEnter: true, // Pause Swiper on hover
   },
   followFinger: true,
   freeMode: false,
