@@ -1,11 +1,10 @@
-//code for Legal pages Toc on mob ONLY
-
 document.addEventListener("DOMContentLoaded", function () {
   const ACCORDION_SELECTOR = '[ff-accordion-element="toc-accordion"]';
   const TRIGGER_SELECTOR = '[ff-accordion-element="trigger"]';
   const CONTENT_SELECTOR = '[ff-accordion-element="content"]';
   const ARROW_SELECTOR = '[ff-accordion-element="arrow"]';
-  const BREAKPOINT = 1024; // Tablet and below
+  const TOC_LINK_SELECTOR = '[ff-accordian-element="link"]';
+  const BREAKPOINT = 1024;
 
   function isTabletOrBelow() {
     return window.innerWidth <= BREAKPOINT;
@@ -14,19 +13,29 @@ document.addEventListener("DOMContentLoaded", function () {
   function toggleAccordion(trigger, content, arrow) {
     const isOpen = content.style.display === "block";
 
-    if (isOpen) {
-      content.style.display = "none";
-      arrow?.classList.remove("is-active-accordian");
-    } else {
-      content.style.display = "block";
-      arrow?.classList.add("is-active-accordian");
+    content.style.display = isOpen ? "none" : "block";
+    arrow?.classList.toggle("is-active-accordian", !isOpen);
+
+    if (!isOpen) {
+      initializeTocLinks(content);
     }
   }
 
-  function setupAccordion() {
-    const accordions = document.querySelectorAll(ACCORDION_SELECTOR);
+  function initializeTocLinks(content) {
+    content.querySelectorAll(TOC_LINK_SELECTOR).forEach((link) => {
+      link.addEventListener("click", function () {
+        if (!isTabletOrBelow()) return;
+        content.style.display = "none";
+        content
+          .closest(ACCORDION_SELECTOR)
+          .querySelector(ARROW_SELECTOR)
+          ?.classList.remove("is-active-accordian");
+      });
+    });
+  }
 
-    accordions.forEach((accordion) => {
+  function setupAccordion() {
+    document.querySelectorAll(ACCORDION_SELECTOR).forEach((accordion) => {
       const trigger = accordion.querySelector(TRIGGER_SELECTOR);
       const content = accordion.querySelector(CONTENT_SELECTOR);
       const arrow = accordion.querySelector(ARROW_SELECTOR);
@@ -36,27 +45,15 @@ document.addEventListener("DOMContentLoaded", function () {
           if (!isTabletOrBelow()) return;
           toggleAccordion(trigger, content, arrow);
         });
-
-        // Add event listener to close the accordion when a link is clicked
-        content.querySelectorAll("a").forEach((link) => {
-          link.addEventListener("click", function () {
-            if (!isTabletOrBelow()) return;
-            content.style.display = "none";
-            arrow?.classList.remove("is-active-accordian");
-          });
-        });
       }
     });
   }
 
   function resetAccordions() {
     document.querySelectorAll(CONTENT_SELECTOR).forEach((content) => {
-      if (isTabletOrBelow()) {
-        content.style.display = "none";
-      } else {
-        content.style.display = "block"; // Ensure content is visible on desktop
-      }
+      content.style.display = isTabletOrBelow() ? "none" : "block";
     });
+
     document.querySelectorAll(ARROW_SELECTOR).forEach((arrow) => {
       arrow.classList.remove("is-active-accordian");
     });
@@ -66,7 +63,6 @@ document.addEventListener("DOMContentLoaded", function () {
     resetAccordions();
   }
 
-  // Debounce function to limit the rate of handleResize calls
   let resizeTimeout;
   window.addEventListener("resize", function () {
     clearTimeout(resizeTimeout);
@@ -74,5 +70,5 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   setupAccordion();
-  handleResize(); // Initial check on page load
+  handleResize();
 });
