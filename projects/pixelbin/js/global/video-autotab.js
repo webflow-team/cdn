@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll('[pb-video-tab="link"]');
-  const tabContents = document.querySelectorAll(".video_tab_pane");
-  const videos = document.querySelectorAll(".video_tab_video");
+  const tabContents = document.querySelectorAll('[pb-video-tab="pane"]');
+  const videos = document.querySelectorAll('[pb-video-tab="video"]');
   const progressBars = document.querySelectorAll(
     '[pb-video-tab="progressbar"]'
   );
@@ -21,8 +21,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Reset all progress bars
-    progressBars.forEach((bar) => (bar.style.width = "0%"));
+    // Reset all progress bars except the current one
+    progressBars.forEach((bar) => {
+      if (bar !== currentProgressBar) {
+        bar.style.width = "0%";
+      }
+    });
   };
 
   // Function to switch to the next tab
@@ -39,23 +43,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const updateProgressBar = (video, progressBar) => {
     if (!video || !progressBar) return;
 
-    clearInterval(progressInterval); // Clear previous interval
-    progressBar.style.width = "0%"; // Reset progress bar
+    cancelAnimationFrame(progressInterval); // Stop any previous animation
 
     const update = () => {
-      if (!video.paused) {
+      if (!video.paused && video.duration) {
         const progress = (video.currentTime / video.duration) * 100;
         progressBar.style.width = `${progress}%`;
 
-        if (progress >= 100) {
-          clearInterval(progressInterval); // Stop when 100% is reached
-        } else {
+        if (progress < 100) {
           progressInterval = requestAnimationFrame(update);
         }
       }
     };
 
-    progressInterval = requestAnimationFrame(update);
+    // Ensure progress bar updates immediately
+    progressBar.style.width = "0%";
+    setTimeout(() => requestAnimationFrame(update), 50);
   };
 
   // IntersectionObserver to detect if video is in viewport
@@ -64,14 +67,17 @@ document.addEventListener("DOMContentLoaded", () => {
       (entries) => {
         entries.forEach((entry) => {
           const video = entry.target.querySelector("video");
+          const progressBar = entry.target.querySelector(
+            '[pb-video-tab="progressbar"]'
+          );
 
-          if (entry.isIntersecting) {
-            if (video) {
+          if (video) {
+            if (entry.isIntersecting) {
               video.play();
-            }
-          } else {
-            if (video) {
+              updateProgressBar(video, progressBar); // Resume progress bar
+            } else {
               video.pause();
+              cancelAnimationFrame(progressInterval); // Pause progress bar animation
             }
           }
         });
@@ -96,6 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         video.currentTime = 0;
         video.play();
+
+        // Ensure progress bar starts instantly
         updateProgressBar(video, progressBar);
 
         // When video ends, switch to the next tab
@@ -106,8 +114,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   setupObserver();
 
-  // Automatically start first tab
+  // ✅ Fully Fixed: Ensure progress bar starts when first video loads
   if (tabs.length > 0) {
-    tabs[0].click();
+    const firstTab = tabs[0];
+    const firstVideo = tabContents[0].querySelector("video");
+    const firstProgressBar = progressBars[0];
+
+    firstTab.click(); // Ensure first tab is selected
+
+    if (firstVideo) {
+      if (firstVideo.readyState >= 2) {
+        // Video is already loaded, start progress bar
+        updateProgressBar(firstVideo, firstProgressBar);
+      } else {
+        // Wait until metadata is loaded, then start progress bar
+        firstVideo.onloadedmetadata = () => {
+          updateProgressBar(firstVideo, firstProgressBar);
+        };
+      }
+    }
   }
 });
