@@ -5,12 +5,14 @@ const swipertbm = new Swiper('[data-swiper="slider3"]', {
   slideToClickedSlide: false,
   slidesPerView: "auto",
   autoplay: {
-    delay: 3000, // Adjust delay as needed
+    delay: 3000,
     disableOnInteraction: false,
-    pauseOnMouseEnter: true, // Pauses autoplay when hovered
+    pauseOnMouseEnter: true,
   },
   mousewheel: {
     forceToAxis: true,
+    releaseOnEdges: true, // Allows scrolling past Swiper naturally
+    sensitivity: 1, // Adjust if needed
   },
   keyboard: {
     enabled: true,
@@ -21,4 +23,5 @@ const swipertbm = new Swiper('[data-swiper="slider3"]', {
     nextEl: '[data-swiper-button="next"]',
     prevEl: '[data-swiper-button="prev"]',
   },
+  passiveListeners: false, // Helps fix scrolling issues on Safari
 });
