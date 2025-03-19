@@ -1,6 +1,6 @@
 const swipertbm = new Swiper('[data-swiper="slider3"]', {
   speed: 500,
-  autoHeight: true,
+  // autoHeight: true,
   followFinger: true,
   slideToClickedSlide: false,
   slidesPerView: "auto",
