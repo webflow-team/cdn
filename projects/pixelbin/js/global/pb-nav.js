@@ -7,6 +7,7 @@ const navInner = document.querySelector("[el=nav-inner-wrapper]");
 const logo = document.querySelector("[el=logo-wrapper]");
 const logoText = document.querySelector("[el=logo-text]");
 const firstCta = document.querySelector("[el=first-cta]");
+const loginBtn = document.querySelector('[el="loginbtn"]');
 const bgShape = document.querySelector("[el=nav-bg-shape]");
 
 // ---------------------------------------------------------------------------
@@ -105,6 +106,20 @@ navShrink
       onReverseComplete: () => {
         // Add the 'hover-state' class once animation is complete
         firstCta.classList.remove("first-cta-hover");
+      },
+    },
+
+    "0.4"
+  )
+  .to(
+    loginBtn,
+    {
+      opacity: 0,
+      pointerEvents: "none",
+      duration: 0.3,
+      ease: "power1.out",
+      onReverseComplete: () => {
+        loginBtn.style.pointerEvents = "auto";
       },
     },
     "0.4"
