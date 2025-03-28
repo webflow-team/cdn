@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const autoInterval =
     parseInt(tabMenu.getAttribute("home-automatic-tabs") || "0", 10) * 1000;
 
-  // 3. Collect only <a class="home_logos_tab_link"> as our tab links
+  // 3. Collect all <button class="home_logos_tab_link"> as tab links
   const tabLinks = Array.from(
-    tabMenu.querySelectorAll("a.home_logos_tab_link")
+    tabMenu.querySelectorAll("button.home_logos_tab_link")
   );
 
   // 4. Find the .home_logos_tab_content wrapper + all .home_logos_tab_pane
@@ -35,11 +35,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Switch to a specific tab
   function goToTab(index) {
-    // Remove .is-current from all
     tabLinks.forEach((link) => link.classList.remove("is-current"));
     tabPanes.forEach((pane) => pane.classList.remove("is-current"));
 
-    // Add .is-current to chosen link & matching pane
     tabLinks[index].classList.add("is-current");
     tabPanes[index].classList.add("is-current");
     currentIndex = index;
@@ -47,28 +45,22 @@ document.addEventListener("DOMContentLoaded", function () {
     resetProgressAnimation(index);
   }
 
-  // Reset the progress bar animation for the current tab
   function resetProgressAnimation(index) {
     const loadBar = tabLinks[index].querySelector(".c-autotabs_load");
     if (!loadBar) return;
 
-    // Jump back to width=0 with no transition (so it restarts)
     loadBar.style.transition = "none";
     loadBar.style.width = "0";
-    // Force reflow
     void loadBar.offsetWidth;
-    // Reapply transition for the autoInterval
     loadBar.style.transition = `width linear ${autoInterval / 1000}s`;
     loadBar.style.width = "100%";
   }
 
-  // Move to next tab (circular)
   function nextTab() {
     const nextIndex = (currentIndex + 1) % tabLinks.length;
     goToTab(nextIndex);
   }
 
-  // Auto rotation
   let autoTimer = null;
   function startAutoTabs() {
     if (autoInterval > 0) {
@@ -83,13 +75,13 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Initialize
-  goToTab(currentIndex); // ensure correct tab is displayed initially
+  goToTab(currentIndex);
   startAutoTabs();
 
   // Click event
   tabLinks.forEach((link, idx) => {
     link.addEventListener("click", function (e) {
-      e.preventDefault(); // if it's an actual <a>
+      e.preventDefault();
       stopAutoTabs();
       goToTab(idx);
       startAutoTabs();
