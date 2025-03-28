@@ -1,5 +1,4 @@
 // Initialize Swiper for Content
-//testr
 const swiperContent = new Swiper("#tab-content-swiper", {
   speed: 600,
   loop: false,
@@ -13,9 +12,9 @@ const swiperContent = new Swiper("#tab-content-swiper", {
   followFinger: true,
   freeMode: false,
   slidesPerView: "auto",
-  mousewheel: {
-    forceToAxis: true,
-  },
+  // mousewheel: {
+  //   forceToAxis: true,
+  // },
   keyboard: {
     enabled: true,
     onlyInViewport: true,
