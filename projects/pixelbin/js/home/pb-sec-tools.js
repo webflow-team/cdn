@@ -141,7 +141,7 @@ cards.forEach((card) => {
       .to(
         mediaEmbed,
         {
-          borderRadius: "0.5rem", // Background color animation
+          borderRadius: "1rem", // Background color animation
           duration: 0.3,
           ease: "ease.out",
         },
