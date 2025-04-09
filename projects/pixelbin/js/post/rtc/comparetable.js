@@ -13,14 +13,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const scrollTracks = wrapper.querySelectorAll(
       '[post-comparetable="scroll-track"]'
     );
+    const featureWrapper = wrapper.querySelector(
+      '[post-comparetable="features-cells"]'
+    );
 
-    if (window.innerWidth > 767 || !scrollTracks.length) return;
+    if (!scrollTracks.length) return;
 
-    let currentIndex = 0;
-    const columnWidth = 109; // consistent column width
+    const columnWidth = 109;
     const totalCols = scrollTracks[0].children.length;
 
-    function updateSlider() {
+    // Local state per wrapper
+    let currentIndex = 0;
+
+    const updateSlider = () => {
+      if (window.innerWidth > 767) {
+        scrollTracks.forEach((track) => {
+          track.style.transform = "";
+          track.style.transition = "";
+        });
+        prevBtn.style.opacity = "1";
+        prevBtn.style.pointerEvents = "auto";
+        nextBtn.style.opacity = "1";
+        nextBtn.style.pointerEvents = "auto";
+        return;
+      }
+
       const shiftX = -(currentIndex * columnWidth);
       scrollTracks.forEach((track) => {
         track.style.transform = `translateX(${shiftX}px)`;
@@ -32,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
       nextBtn.style.opacity = currentIndex >= totalCols - 1 ? "0.3" : "1";
       nextBtn.style.pointerEvents =
         currentIndex >= totalCols - 1 ? "none" : "auto";
-    }
+    };
 
     prevBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -50,19 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    window.addEventListener("resize", () => {
-      if (window.innerWidth <= 767) {
-        updateSlider();
-      }
-    });
-
-    // Initial view
-    updateSlider();
-
     // Stripe background rows
-    const featureWrapper = wrapper.querySelector(
-      '[post-comparetable="features-cells"]'
-    );
     if (featureWrapper) {
       const rows = featureWrapper.querySelectorAll('[post-comparetable="row"]');
       rows.forEach((row, index) => {
@@ -71,5 +76,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     }
+
+    // Individual resize observer
+    const resizeObserver = new ResizeObserver(() => updateSlider());
+    resizeObserver.observe(document.body); // observe document body for simplicity
+
+    updateSlider(); // initial setup
   });
 });
