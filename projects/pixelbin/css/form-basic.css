@@ -1,3 +1,6 @@
+input:hover::placeholder {
+  color: var(--base-color-neutral--grey-80); /* or your desired hover color */
+}
 label.error {
   font-size: 12px;
   color: var(--text-color--text-error-subdued);
