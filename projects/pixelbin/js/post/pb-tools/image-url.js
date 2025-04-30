@@ -45,7 +45,6 @@ Webflow.push(function () {
 
   // Auto-focus input when modal is displayed
   const modal = document.querySelector('[fs-modal-element="modal-1"]');
-
   if (modal) {
     const observer = new IntersectionObserver(
       (entries) => {
