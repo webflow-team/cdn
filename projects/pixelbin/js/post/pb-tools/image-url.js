@@ -11,12 +11,12 @@ Webflow.push(function () {
       const imageUrl = input?.value?.trim();
 
       if (!imageUrl) {
-        alert("Please enter an image URL.");
+        console.error("Please enter an image URL.");
         return;
       }
 
       if (!tool) {
-        alert("Tool name not specified.");
+        console.error("Tool name not specified.");
         return;
       }
 
