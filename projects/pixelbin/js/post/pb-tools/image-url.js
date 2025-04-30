@@ -44,16 +44,20 @@ Webflow.push(function () {
   });
 
   // Auto-focus input when modal is displayed
-  const modal = document.querySelector("[fs-modal-element]");
-  if (modal) {
-    const observer = new MutationObserver(() => {
-      const isVisible = window.getComputedStyle(modal).display === "flex";
-      if (isVisible) {
-        const input = document.querySelector('[pb-tool-url="input"] input');
-        if (input) input.focus();
-      }
-    });
+  const modal = document.querySelector('[fs-modal-element="modal-1"]');
 
-    observer.observe(modal, { attributes: true, attributeFilter: ["style"] });
+  if (modal) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting) {
+          const input = document.querySelector('[pb-tool-url="input"] input');
+          if (input) input.focus();
+        }
+      },
+      { threshold: 0.5 } // Adjust if needed
+    );
+
+    observer.observe(modal);
   }
 });
