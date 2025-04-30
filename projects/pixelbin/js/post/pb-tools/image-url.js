@@ -42,26 +42,4 @@ Webflow.push(function () {
       window.location.href = finalUrl;
     });
   });
-
-  // Auto-focus input when modal is displayed
-  let modalInputFocused = false;
-
-  const checkModalVisibleInterval = setInterval(() => {
-    const modal = document.querySelector('[fs-modal-element="modal-1"]');
-    const input = document.querySelector('[pb-tool-url="input"] input');
-
-    if (!modal || !input) return;
-
-    const isModalVisible = window.getComputedStyle(modal).display === "flex";
-
-    if (isModalVisible && !modalInputFocused) {
-      input.focus();
-      modalInputFocused = true;
-    }
-
-    // Reset flag when modal closes
-    if (!isModalVisible && modalInputFocused) {
-      modalInputFocused = false;
-    }
-  }, 200);
 });
