@@ -5,5 +5,6 @@ label.error {
   line-height: 100%;
   width: 100%;
   font-weight: 400;
+  border: 1px solid var(--base-color-system--error-red);
   transition: all 500ms ease-in-out;
 }
