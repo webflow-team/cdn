@@ -1,5 +1,14 @@
 input:hover::placeholder {
-  color: var(--base-color-neutral--grey-80);
+  color: rgba(0, 0, 0, 0.65); /* or your desired hover color */
+}
+label.error::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url("https://cdn.prod.website-files.com/673193e0642e6ad25696fcd4/6811f86512af51e6cfc32611_error-icon.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 label.error {
   font-size: 12px;
@@ -8,5 +17,8 @@ label.error {
   line-height: 100%;
   width: 100%;
   font-weight: 400;
+  display: flex;
+  align-items: center;
+  grid-row-gap: var(--_spacing---gap--4px);
   transition: all 500ms ease-in-out;
 }
