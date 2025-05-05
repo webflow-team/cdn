@@ -1,5 +1,5 @@
 input:hover::placeholder {
-  color: rgba(0, 0, 0, 0.65); /* or your desired hover color */
+  color: rgba(0, 0, 0, 0.65);
 }
 label.error::before {
   content: "";
