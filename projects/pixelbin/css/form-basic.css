@@ -19,6 +19,6 @@ label.error {
   font-weight: 400;
   display: flex;
   align-items: center;
-  grid-row-gap: var(--_spacing---gap--4px);
+  grid-column-gap: var(--_spacing---gap--4px);
   transition: all 500ms ease-in-out;
 }
