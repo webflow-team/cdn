@@ -11,7 +11,7 @@ label.error::before {
   background-repeat: no-repeat;
 }
 label.error {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-color--text-error-subdued);
   margin-top: 4px;
   line-height: 100%;
