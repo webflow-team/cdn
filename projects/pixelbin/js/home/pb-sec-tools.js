@@ -4,10 +4,10 @@
 const cards = document.querySelectorAll(".home-tools_card");
 
 cards.forEach((card) => {
-  const mediaEmbed = card.querySelector(".home-tools_card-media-embed");
-  const wrapper = card.querySelector(".home-tools_card-media-wrapper");
-  const nameWrapper = card.querySelector(".home-tools_card-name");
-  const overlay = card.querySelector(".home-tools_card-overlay");
+  //const mediaEmbed = card.querySelector(".home-tools_card-media-embed");
+  //const wrapper = card.querySelector(".home-tools_card-media-wrapper");
+  //const nameWrapper = card.querySelector(".home-tools_card-name");
+  //const overlay = card.querySelector(".home-tools_card-overlay");
   const video = card.querySelector(".tools-video");
   video.muted = true;
 
@@ -17,7 +17,7 @@ cards.forEach((card) => {
     // Kill any ongoing hover-out timeline to prevent conflicts
     if (hoverOutTimeline) hoverOutTimeline.kill();
     video.play();
-
+    /*
     // Record the initial state of the mediaEmbed
     const state = Flip.getState(mediaEmbed);
 
@@ -83,6 +83,8 @@ cards.forEach((card) => {
         },
         0.15
       );
+
+      */
   });
 
   card.addEventListener("mouseleave", () => {
@@ -90,7 +92,7 @@ cards.forEach((card) => {
     if (hoverInTimeline) hoverInTimeline.kill();
     video.pause();
     video.currentTime = 0;
-
+    /*
     // Record the initial state of the mediaEmbed
     const state = Flip.getState(mediaEmbed);
 
@@ -141,7 +143,7 @@ cards.forEach((card) => {
       .to(
         mediaEmbed,
         {
-          borderRadius: "1rem", // Background color animation
+          borderRadius: "0.5rem", // Background color animation
           duration: 0.3,
           ease: "ease.out",
         },
@@ -156,5 +158,6 @@ cards.forEach((card) => {
         },
         0
       );
+      */
   });
 });
