@@ -4,6 +4,20 @@ Webflow.push(function () {
   const modal = document.querySelector('[fs-modal-element="modal-1"]');
   const input = document.querySelector('[pb-tool-url="input"] input');
 
+  // --- Detect correct console domain dynamically ---
+  function getConsoleBaseUrl() {
+    const hostname = window.location.hostname;
+    const isStaging = hostname.includes('webflow.io') || hostname.includes('pixelbinz0.de');
+
+    // Extract base domain from current domain
+    const domainParts = hostname.split('.');
+
+    // Handle `pixelbinz0.de` (staging) and `pixelbin.de` (prod)
+    const baseDomain = domainParts.slice(-2).join('.'); // e.g., pixelbin.de or pixelbinz0.de
+
+    return `https://console.${baseDomain}`;
+  }
+
   // --- 1. Add custom validator to check image file extensions ---
   if (btn && form) {
     $.validator.addMethod(
@@ -30,11 +44,11 @@ Webflow.push(function () {
         "Image-URL": {
           required: "Image URL is required.",
           url: "Please enter a valid URL.",
-          imageUrl: "Please enter valid image URL", // updated message
+          imageUrl: "Please enter valid image URL",
         },
       },
       onkeyup: function (element) {
-        $(element).valid(); // triggers validation on each keypress
+        $(element).valid();
       },
     });
 
@@ -52,8 +66,9 @@ Webflow.push(function () {
         return;
       }
 
-      const baseUrl = `/console/mini-studio/${tool}?url=${imageUrl}`;
-      window.location.href = baseUrl;
+      const baseUrl = getConsoleBaseUrl();
+      const finalUrl = `${baseUrl}/mini-studio/${tool}?url=${encodeURIComponent(imageUrl)}`;
+      window.location.href = finalUrl;
     });
   }
 
@@ -70,7 +85,8 @@ Webflow.push(function () {
         return;
       }
 
-      const finalUrl = `/console/mini-studio/${tool}?url=${imageUrl}`;
+      const baseUrl = getConsoleBaseUrl();
+      const finalUrl = `${baseUrl}/mini-studio/${tool}?url=${encodeURIComponent(imageUrl)}`;
       window.location.href = finalUrl;
     });
   });
@@ -80,7 +96,6 @@ Webflow.push(function () {
     const observer = new MutationObserver(() => {
       const display = window.getComputedStyle(modal).display;
       if (display === "flex") {
-        // Delay ensures input is fully visible/focusable
         setTimeout(() => input.focus(), 100);
       }
     });
