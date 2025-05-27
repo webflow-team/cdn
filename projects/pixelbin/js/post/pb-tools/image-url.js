@@ -21,10 +21,6 @@ Webflow.push(function () {
     return `https://console.pixelbin.io`;
   }
 
-  // Default fallback: use the last two parts of the hostname
-  const domainParts = hostname.split('.');
-  const baseDomain = domainParts.slice(-2).join('.'); // e.g., pixelbin.de or something else
-
   return `https://console.${baseDomain}`;
 }
 
