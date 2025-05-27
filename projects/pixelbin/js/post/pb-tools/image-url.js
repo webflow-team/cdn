@@ -52,7 +52,7 @@ Webflow.push(function () {
         return;
       }
 
-      const baseUrl = `https://console.pixelbinz0.de/mini-studio/${tool}?url=${imageUrl}`;
+      const baseUrl = `/console/mini-studio/${tool}?url=${imageUrl}`;
       window.location.href = baseUrl;
     });
   }
@@ -70,7 +70,7 @@ Webflow.push(function () {
         return;
       }
 
-      const finalUrl = `https://console.pixelbinz0.de/mini-studio/${tool}?url=${imageUrl}`;
+      const finalUrl = `/console/mini-studio/${tool}?url=${imageUrl}`;
       window.location.href = finalUrl;
     });
   });
