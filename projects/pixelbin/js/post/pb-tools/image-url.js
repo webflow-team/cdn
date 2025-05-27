@@ -6,17 +6,28 @@ Webflow.push(function () {
 
   // --- Detect correct console domain dynamically ---
   function getConsoleBaseUrl() {
-    const hostname = window.location.hostname;
-    const isStaging = hostname.includes('webflow.io') || hostname.includes('pixelbinz0.de');
+  const hostname = window.location.hostname;
 
-    // Extract base domain from current domain
-    const domainParts = hostname.split('.');
+  // Define staging indicators
+  const isStaging = hostname.includes('webflow.io') || hostname.includes('pixelbinz0.de');
 
-    // Handle `pixelbinz0.de` (staging) and `pixelbin.de` (prod)
-    const baseDomain = domainParts.slice(-2).join('.'); // e.g., pixelbin.de or pixelbinz0.de
-
-    return `https://console.${baseDomain}`;
+  if (isStaging) {
+    // For staging, always console.pixelbinz0.de
+    return `https://console.pixelbinz0.de`;
   }
+
+  // Production domain handling
+  if (hostname.endsWith('pixelbin.io')) {
+    return `https://console.pixelbin.io`;
+  }
+
+  // Default fallback: use the last two parts of the hostname
+  const domainParts = hostname.split('.');
+  const baseDomain = domainParts.slice(-2).join('.'); // e.g., pixelbin.de or something else
+
+  return `https://console.${baseDomain}`;
+}
+
 
   // --- 1. Add custom validator to check image file extensions ---
   if (btn && form) {
