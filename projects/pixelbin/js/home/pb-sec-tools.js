@@ -15,6 +15,7 @@ cards.forEach((card) => {
 
   card.addEventListener("mouseenter", () => {
     // Kill any ongoing hover-out timeline to prevent conflicts
+    if (window.innerWidth < 1024) return; // Only allow on desktop
     if (hoverOutTimeline) hoverOutTimeline.kill();
     video.play();
     /*
@@ -88,6 +89,7 @@ cards.forEach((card) => {
   });
 
   card.addEventListener("mouseleave", () => {
+    if (window.innerWidth < 1024) return; // Only allow on desktop
     // Kill any ongoing hover-in timeline to prevent conflicts
     if (hoverInTimeline) hoverInTimeline.kill();
     video.pause();
