@@ -9,35 +9,40 @@ const cards = document.querySelectorAll(".home-tools_card");
 cards.forEach((card) => {
   const video = card.querySelector(".tools-video");
 
-  // Ensure video attributes
+  // Safari/iOS-safe video setup
   video.muted = true;
+  video.setAttribute("muted", ""); // Required for iOS autoplay
   video.playsInline = true;
+  video.setAttribute("playsinline", "");
   video.preload = "auto";
+  video.removeAttribute("loop"); // You control playback manually
 
-  // Only preload and warm-up on desktop
+  // Optional warm preload if needed (only on desktop)
   if (isDesktop()) {
-    video.load(); // Force preload
-
-    video.addEventListener("canplaythrough", () => {
-      if (!isDesktop()) return; // Double-check
-      video.play()
-        .then(() => {
-          video.pause();
-          video.currentTime = 0;
-        })
-        .catch((e) => {
-          console.log("Video preload warm-up failed:", e);
-        });
-    });
+    video.load(); // Begin loading the video file
   }
 
   let hoverInTimeline, hoverOutTimeline;
 
+  // Hover In
   card.addEventListener("mouseenter", () => {
     if (!isDesktop()) return;
 
     if (hoverOutTimeline) hoverOutTimeline.kill();
-    video.play();
+
+    try {
+      video.pause();
+      video.currentTime = 0;
+
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          console.warn("Hover play failed:", err);
+        });
+      }
+    } catch (err) {
+      console.error("Video play error:", err);
+    }
 
     /*
     // Un-comment and complete when needed:
@@ -83,12 +88,18 @@ cards.forEach((card) => {
     */
   });
 
+  // Hover Out
   card.addEventListener("mouseleave", () => {
     if (!isDesktop()) return;
 
     if (hoverInTimeline) hoverInTimeline.kill();
-    video.pause();
-    video.currentTime = 0;
+
+    try {
+      video.pause();
+      video.currentTime = 0;
+    } catch (err) {
+      console.error("Video reset error:", err);
+    }
 
     /*
     const state = Flip.getState(mediaEmbed);
